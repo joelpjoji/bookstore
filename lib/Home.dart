@@ -25,9 +25,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        
         backgroundColor: Color.fromRGBO(219, 240, 255, 5),
-        body: pages[currentScreen],
+        body: Center(child: pages[currentScreen]),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: currentScreen,
