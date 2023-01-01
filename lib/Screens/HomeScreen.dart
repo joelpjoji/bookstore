@@ -160,9 +160,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       const Color.fromARGB(255, 234, 246, 255),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 0, vertical: 5),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.elliptical(20, 90)),
                                   boxFit: BoxFit.fill,
+                                  borderRadius: BorderRadius.circular(15.0),
                                   titlePosition: GFPosition.end,
                                   image: Image.network(
                                     documentSnapshot['image'],
@@ -243,8 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         255, 234, 246, 255),
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 0, vertical: 5),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.elliptical(20, 90)),
+                                    borderRadius: BorderRadius.circular(15.0),
                                     boxFit: BoxFit.fill,
                                     titlePosition: GFPosition.end,
                                     image: Image.network(

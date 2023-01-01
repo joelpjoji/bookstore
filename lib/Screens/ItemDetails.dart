@@ -149,7 +149,7 @@ class ItemsDetails extends StatelessWidget {
                             const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
                         child: ReadMoreText(
                           documentSnapshot['prolouge'],
-                          trimLines: 5,
+                          trimLines: 4,
                           colorClickableText: Colors.lightBlue,
                           trimMode: TrimMode.Line,
                           trimCollapsedText: 'Show more',
@@ -158,7 +158,8 @@ class ItemsDetails extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
                         child: Text(
                           'Similar Books',
                           style: AppTheme.of(context).title1,
