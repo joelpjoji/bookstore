@@ -2,7 +2,6 @@ import 'package:bookstore/Screens/HomeScreen.dart';
 import 'package:bookstore/Screens/LikesScreen.dart';
 import 'package:bookstore/Screens/NotificationScreen.dart';
 import 'package:bookstore/Screens/ProfileScreen.dart';
-import 'package:bookstore/Screens/movies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -19,7 +18,6 @@ class _HomeState extends State<Home> {
   final pages = [
     HomeScreen(),
     NotificationScreen(),
-    //MoviesPage(),
     LikesScreen(),
     ProfileScreen()
   ];

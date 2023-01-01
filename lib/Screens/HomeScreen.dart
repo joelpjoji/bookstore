@@ -23,42 +23,50 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          SearchBar(),
-          const Text(
-            'Discover',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 35,
-                color: Color.fromARGB(255, 92, 92, 92)),
-          ),
-          Flexible(
-            child: StreamBuilder(
-              stream: _booklist.snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
-                }
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        final DocumentSnapshot documentSnapshot =
-                            snapshot.data!.docs[index];
-                        if (index != 0 &&
-                            index != 1 &&
-                            index != 2 &&
-                            index != 3 &&
-                            index != 4) {
-                          return ListView(
-                            shrinkWrap: true,
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              Container(
+    return Column(
+      children: [
+        SearchBar(),
+        const Text(
+          'Discover',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 35,
+              color: Color.fromARGB(255, 92, 92, 92)),
+        ),
+        Flexible(
+          child: StreamBuilder(
+            stream: _booklist.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Center(child: Text(snapshot.error.toString()));
+              }
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      final DocumentSnapshot documentSnapshot =
+                          snapshot.data!.docs[index];
+                      if (index != 0 &&
+                          index != 1 &&
+                          index != 2 &&
+                          index != 3 &&
+                          index != 4) {
+                        return ListView(
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ItemsDetails(
+                                            documentSnapshot:
+                                                documentSnapshot)));
+                              },
+                              child: Container(
                                 margin: EdgeInsets.only(
                                   left: 20,
                                 ),
@@ -74,53 +82,62 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
-                            ],
-                          );
-                        } else {
-                          return SizedBox();
-                        }
-                      });
-                }
+                            ),
+                          ],
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    });
+              }
 
-                return Center(child: CircularProgressIndicator());
-              },
+              return Center(child: CircularProgressIndicator());
+            },
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Top',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 28,
+                    color: Color.fromARGB(255, 92, 92, 92)),
+              ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Top',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28,
-                      color: Color.fromARGB(255, 92, 92, 92)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('More →'),
-              ),
-            ],
-          ),
-          Flexible(
-            child: StreamBuilder(
-              stream: _booklist.snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
-                }
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        final DocumentSnapshot documentSnapshot =
-                            snapshot.data!.docs[index];
-                        return Row(children: [
-                          SizedBox(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('More →'),
+            ),
+          ],
+        ),
+        Flexible(
+          child: StreamBuilder(
+            stream: _booklist.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Center(child: Text(snapshot.error.toString()));
+              }
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      final DocumentSnapshot documentSnapshot =
+                          snapshot.data!.docs[index];
+                      return Row(children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ItemsDetails(
+                                        documentSnapshot: documentSnapshot)));
+                          },
+                          child: SizedBox(
                             width: 160,
                             height: 290,
                             child: GFCard(
@@ -147,50 +164,59 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           ),
-                        ]);
-                      });
-                }
+                        ),
+                      ]);
+                    });
+              }
 
-                return Center(child: CircularProgressIndicator());
-              },
+              return Center(child: CircularProgressIndicator());
+            },
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Recommended',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 28,
+                    color: Color.fromARGB(255, 92, 92, 92)),
+              ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Recommended',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28,
-                      color: Color.fromARGB(255, 92, 92, 92)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('More →'),
-              ),
-            ],
-          ),
-          Flexible(
-            child: StreamBuilder(
-              stream: _booklist.snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
-                }
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        final DocumentSnapshot documentSnapshot =
-                            snapshot.data!.docs[index];
-                        if (index != 0 && index != 1 && index != 2) {
-                          return Row(children: [
-                            SizedBox(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('More →'),
+            ),
+          ],
+        ),
+        Flexible(
+          child: StreamBuilder(
+            stream: _booklist.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Center(child: Text(snapshot.error.toString()));
+              }
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      final DocumentSnapshot documentSnapshot =
+                          snapshot.data!.docs[index];
+                      if (index != 0 && index != 1 && index != 2) {
+                        return Row(children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ItemsDetails(
+                                          documentSnapshot: documentSnapshot)));
+                            },
+                            child: SizedBox(
                               width: 160,
                               height: 290,
                               child: GFCard(
@@ -218,19 +244,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                          ]);
-                        } else {
-                          return SizedBox();
-                        }
-                      });
-                }
+                          ),
+                        ]);
+                      } else {
+                        return SizedBox();
+                      }
+                    });
+              }
 
-                return Center(child: CircularProgressIndicator());
-              },
-            ),
+              return Center(child: CircularProgressIndicator());
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
