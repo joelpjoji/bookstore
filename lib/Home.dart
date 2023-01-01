@@ -1,3 +1,4 @@
+import 'package:bookstore/Screens/LikesScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bookstore/Screens/HomeScreen.dart';
@@ -17,7 +18,7 @@ class _HomeState extends State<Home> {
   final pages = [
     const HomeScreen(),
     const NotificationScreen(),
-    const RowList(),
+    const LikesScreen(),
     const ProfileScreen()
   ];
   @override
