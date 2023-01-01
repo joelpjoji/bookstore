@@ -12,10 +12,10 @@ class LikesScreen extends StatelessWidget {
               items: [
                 //1st Image of Slider
                 Container(
-                  margin: EdgeInsets.all(6.0),
+                  margin: const EdgeInsets.all(6.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
-                    image: DecorationImage(
+                    image: const DecorationImage(
                       image: NetworkImage("https://picsum.photos/200/300"),
                       fit: BoxFit.cover,
                     ),
@@ -31,7 +31,7 @@ class LikesScreen extends StatelessWidget {
                 aspectRatio: 16 / 9,
                 autoPlayCurve: Curves.fastOutSlowIn,
                 enableInfiniteScroll: true,
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayAnimationDuration: const Duration(milliseconds: 800),
                 viewportFraction: 0.8,
               ),
             ),

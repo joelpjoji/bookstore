@@ -1,9 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:collection';
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
@@ -25,16 +22,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 1.5,
+        height: MediaQuery.of(context).size.height * 1.28,
         child: Column(
           children: [
-            SearchBar(),
-            const Text(
-              'Discover',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 35,
-                  color: Color.fromARGB(255, 92, 92, 92)),
+            const SearchBar(),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: const Padding(
+                padding: EdgeInsets.only(left: 20.0),
+                child: Text(
+                  'Discover',
+                  textDirection: TextDirection.ltr,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28,
+                      color: Color.fromARGB(255, 92, 92, 92)),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             Flexible(
               child: StreamBuilder(
@@ -57,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               index != 4) {
                             return ListView(
                               shrinkWrap: true,
-                              physics: BouncingScrollPhysics(),
+                              physics: const BouncingScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               children: [
                                 GestureDetector(
@@ -70,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     documentSnapshot)));
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(
+                                    margin: const EdgeInsets.only(
                                       left: 20,
                                     ),
                                     width: 200,
@@ -89,20 +96,23 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             );
                           } else {
-                            return SizedBox();
+                            return const SizedBox();
                           }
                         });
                   }
 
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 },
               ),
             ),
+            const SizedBox(
+              height: 15,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Padding(
-                  padding: const EdgeInsets.all(8.0),
+              children: const [
+                Padding(
+                  padding: EdgeInsets.only(left: 20.0),
                   child: Text(
                     'Top',
                     style: TextStyle(
@@ -112,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Text('More →'),
                 ),
               ],
@@ -146,10 +156,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: 160,
                                 height: 300,
                                 child: GFCard(
-                                  color: Color.fromARGB(255, 234, 246, 255),
+                                  color:
+                                      const Color.fromARGB(255, 234, 246, 255),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 0, vertical: 5),
-                                  borderRadius: BorderRadius.all(
+                                  borderRadius: const BorderRadius.all(
                                       Radius.elliptical(20, 90)),
                                   boxFit: BoxFit.fill,
                                   titlePosition: GFPosition.end,
@@ -175,15 +186,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         });
                   }
 
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 },
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Padding(
-                  padding: const EdgeInsets.all(8.0),
+              children: const [
+                Padding(
+                  padding: EdgeInsets.only(left: 20.0),
                   child: Text(
                     'Recommended',
                     style: TextStyle(
@@ -193,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Text('More →'),
                 ),
               ],
@@ -228,10 +239,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: 160,
                                   height: 300,
                                   child: GFCard(
-                                    color: Color.fromARGB(255, 234, 246, 255),
+                                    color: const Color.fromARGB(
+                                        255, 234, 246, 255),
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 0, vertical: 5),
-                                    borderRadius: BorderRadius.all(
+                                    borderRadius: const BorderRadius.all(
                                         Radius.elliptical(20, 90)),
                                     boxFit: BoxFit.fill,
                                     titlePosition: GFPosition.end,
@@ -256,12 +268,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ]);
                           } else {
-                            return SizedBox();
+                            return const SizedBox();
                           }
                         });
                   }
 
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 },
               ),
             ),
@@ -285,8 +297,8 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.all(30.0),
+    return const Padding(
+        padding: EdgeInsets.all(20.0),
         child: CupertinoSearchTextField(
           backgroundColor: Colors.white,
           placeholder: 'Type book name or author',

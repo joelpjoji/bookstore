@@ -2,8 +2,6 @@ import 'package:bookstore/Home.dart';
 import 'package:bookstore/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'dart:collection';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

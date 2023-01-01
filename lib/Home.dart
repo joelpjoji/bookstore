@@ -1,10 +1,9 @@
+import 'package:flutter/material.dart';
+
 import 'package:bookstore/Screens/HomeScreen.dart';
-import 'package:bookstore/Screens/LikesScreen.dart';
 import 'package:bookstore/Screens/NotificationScreen.dart';
 import 'package:bookstore/Screens/ProfileScreen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:bookstore/Screens/RowList.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -16,17 +15,17 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentScreen = 0;
   final pages = [
-    HomeScreen(),
-    NotificationScreen(),
-    LikesScreen(),
-    ProfileScreen()
+    const HomeScreen(),
+    const NotificationScreen(),
+    const RowList(),
+    const ProfileScreen()
   ];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(219, 240, 255, 5),
-        body: Center(child: pages[currentScreen]),
+        backgroundColor: const Color.fromRGBO(219, 240, 255, 5),
+        body: pages[currentScreen],
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: currentScreen,
