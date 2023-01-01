@@ -1,14 +1,41 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class LikesScreen extends StatelessWidget {
-  const LikesScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(child: Text('Likes Screen')),
+    return Scaffold(
+      body: ListView(
+        children: [
+          CarouselSlider(
+            items: [
+              //1st Image of Slider
+              Container(
+                margin: EdgeInsets.all(6.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  image: DecorationImage(
+                    image: NetworkImage("https://picsum.photos/200/300"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),              
+            ],
+
+            //Slider Container properties
+            options: CarouselOptions(
+              height: 180.0,
+              enlargeCenterPage: true,
+              autoPlay: true,
+              aspectRatio: 16 / 9,
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enableInfiniteScroll: true,
+              autoPlayAnimationDuration: Duration(milliseconds: 800),
+              viewportFraction: 0.8,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

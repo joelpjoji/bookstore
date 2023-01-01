@@ -1,12 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:collection';
 
-import 'package:bookstore/Screens/BookCard.dart';
-import 'package:bookstore/Screens/ItemDetails.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:getwidget/getwidget.dart';
+
+import 'package:bookstore/Screens/ItemDetails.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,55 +18,218 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  CollectionReference booklist = FirebaseFirestore.instance.collection('books');
-
-  late Stream<QuerySnapshot> bookitems;
-
-  initState() {
-    super.initState();
-    bookitems = booklist.snapshots();
-  }
+  final CollectionReference _booklist =
+      FirebaseFirestore.instance.collection('books');
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: StreamBuilder<QuerySnapshot>(
-        stream: bookitems,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
-          }
-          if (snapshot.connectionState == ConnectionState.active) {
-            QuerySnapshot querySnapshot = snapshot.data;
-            print(querySnapshot.docs[0]["title"]);
-            List<QueryDocumentSnapshot> documents = querySnapshot.docs;
-            print(documents[0]);
-            List<Map> items = documents
-                .map((e) => {
-                      'image': e['image'],
-                      'title': e['title'],
-                      'author': e['author'],
-                      'prolouge': e['prolouge'],
-                      'star': e['star'],
-                      'type': e['quantity'],
-                    })
-                .toList();
+    return Scaffold(
+      body: Column(
+        children: [
+          SearchBar(),
+          const Text(
+            'Discover',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 35,
+                color: Color.fromARGB(255, 92, 92, 92)),
+          ),
+          Flexible(
+            child: StreamBuilder(
+              stream: _booklist.snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                }
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final DocumentSnapshot documentSnapshot =
+                            snapshot.data!.docs[index];
+                        if (index != 0 &&
+                            index != 1 &&
+                            index != 2 &&
+                            index != 3 &&
+                            index != 4) {
+                          return ListView(
+                            shrinkWrap: true,
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                  left: 20,
+                                ),
+                                width: 300,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Colors.black12,
+                                  image: DecorationImage(
+                                    image:
+                                        NetworkImage(documentSnapshot['image']),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return SizedBox();
+                        }
+                      });
+                }
 
-            return ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (BuildContext context, int index) {
-                  //Get the item at this index
-                  Map thisItem = items[index];
-                  //REturn the widget for the list items
-                  return ListTile(
-                    title: Text('${thisItem['title']}'),
-                    subtitle: Text('${thisItem['author']}'),
-                  );
-                });
-          }
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Top',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28,
+                      color: Color.fromARGB(255, 92, 92, 92)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('More →'),
+              ),
+            ],
+          ),
+          Flexible(
+            child: StreamBuilder(
+              stream: _booklist.snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                }
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final DocumentSnapshot documentSnapshot =
+                            snapshot.data!.docs[index];
+                        return Row(children: [
+                          SizedBox(
+                            width: 160,
+                            height: 290,
+                            child: GFCard(
+                              color: Color.fromARGB(255, 234, 246, 255),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 0, vertical: 5),
+                              borderRadius:
+                                  BorderRadius.all(Radius.elliptical(20, 90)),
+                              boxFit: BoxFit.fill,
+                              titlePosition: GFPosition.end,
+                              image: Image.network(
+                                documentSnapshot['image'],
+                                height:
+                                    MediaQuery.of(context).size.height * 0.2,
+                                width: MediaQuery.of(context).size.width,
+                                fit: BoxFit.scaleDown,
+                              ),
+                              showImage: true,
+                              content: GFListTile(
+                                margin: const EdgeInsets.all(0),
+                                padding: const EdgeInsets.all(0),
+                                titleText: documentSnapshot['title'],
+                                subTitleText: 'by' + documentSnapshot['author'],
+                              ),
+                            ),
+                          ),
+                        ]);
+                      });
+                }
 
-          return Center(child: CircularProgressIndicator());
-        },
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Recommended',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28,
+                      color: Color.fromARGB(255, 92, 92, 92)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('More →'),
+              ),
+            ],
+          ),
+          Flexible(
+            child: StreamBuilder(
+              stream: _booklist.snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                }
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final DocumentSnapshot documentSnapshot =
+                            snapshot.data!.docs[index];
+                        if (index != 0 && index != 1 && index != 2) {
+                          return Row(children: [
+                            SizedBox(
+                              width: 160,
+                              height: 290,
+                              child: GFCard(
+                                color: Color.fromARGB(255, 234, 246, 255),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 5),
+                                borderRadius:
+                                    BorderRadius.all(Radius.elliptical(20, 90)),
+                                boxFit: BoxFit.fill,
+                                titlePosition: GFPosition.end,
+                                image: Image.network(
+                                  documentSnapshot['image'],
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.2,
+                                  width: MediaQuery.of(context).size.width,
+                                  fit: BoxFit.scaleDown,
+                                ),
+                                showImage: true,
+                                content: GFListTile(
+                                  margin: const EdgeInsets.all(0),
+                                  padding: const EdgeInsets.all(0),
+                                  titleText: documentSnapshot['title'],
+                                  subTitleText:
+                                      'by' + documentSnapshot['author'],
+                                ),
+                              ),
+                            ),
+                          ]);
+                        } else {
+                          return SizedBox();
+                        }
+                      });
+                }
+
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -78,62 +243,16 @@ class _HomeScreenState extends State<HomeScreen> {
 //       });
 // }
 
-class HomeContainer extends StatefulWidget {
-  const HomeContainer({
-    super.key,
-    required this.document,
-  });
-  final QueryDocumentSnapshot<Object?> document;
+class SearchBar extends StatelessWidget {
+  const SearchBar({super.key});
 
-  @override
-  State<HomeContainer> createState() => _HomeContainerState();
-}
-
-class _HomeContainerState extends State<HomeContainer> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          const Padding(
-              padding: EdgeInsets.all(30.0),
-              child: CupertinoSearchTextField(
-                backgroundColor: Colors.white,
-                placeholder: 'Type book name or author',
-              )),
-          Column(children: [
-            const Text('Discover'),
-          ]),
-          Text('Top'),
-          Expanded(
-            child: Container(
-              color: Colors.red,
-              child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (ctx, index) {
-                    return Text(widget.document["title"]);
-                  },
-                  separatorBuilder: (ctx, index) {
-                    return SizedBox(
-                      width: 10,
-                    );
-                  },
-                  itemCount: 100),
-            ),
-          ),
-          Text('recommended'),
-          Expanded(
-            child: Container(
-              color: Colors.blue,
-              child: SingleChildScrollView(
-                child: Card(
-                  child: Text('data'),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    return Padding(
+        padding: EdgeInsets.all(30.0),
+        child: CupertinoSearchTextField(
+          backgroundColor: Colors.white,
+          placeholder: 'Type book name or author',
+        ));
   }
 }
